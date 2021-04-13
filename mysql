@@ -1,0 +1,31 @@
+#!/bin/bash
+ARG_C=$#;
+CLI_COMMAND=mysql
+CONTAINER_NAME=db
+
+load_login_creds_from_dotenv(){
+  if [ -f .env ]
+  then
+    export $(cat .env | sed 's/#.*//g' | xargs)
+  else
+    if [ -t 1 ]; then COLOR='\033[0;31m'; else COLOR=''; fi
+    echo -e "${COLOR}ERROR: Could not load .env file. Make sure it exists and is readable!"
+    exit 1;
+  fi
+}
+
+# When the user provides arguments to this script, pass everything
+# directly to the mysql shell inside the container. The user will
+# have to log in manually.
+# Otherwise to user will be logged in automatically and dropped 
+# into the authenticated mysql shell.
+if [ $ARG_C -gt 0 ]
+then
+  # Pass all arguments of this script to the mysql shell running in docker
+  docker-compose exec $CONTAINER_NAME $CLI_COMMAND $@
+else
+  # Load login credentials from .env file.
+  load_login_creds_from_dotenv
+  # Auto login to mysql server and drop into mysql shell.
+  docker-compose exec $CONTAINER_NAME $CLI_COMMAND -D $MYSQL_DATABASE -p$MYSQL_ROOT_PASSWORD
+fi
