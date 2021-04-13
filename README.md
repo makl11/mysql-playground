@@ -3,7 +3,7 @@
 A simple setup to run a mysql server (_and maybe phpMyAdmin_) using docker-compose. This repo also provides a wrapper to simplify command line interaction with the mysql server.
 
 ## Getting started...
-------------------
+
 * Make sure you have [Docker](https://docs.docker.com/get-docker/) and [Docker-Compose](https://docs.docker.com/compose/install/) installed on your machine.
 * Create a `.env` file. For that you can copy or just rename the provided `.env.sample` file.
 * If you want to use the build in phpMyAdmin you have to uncomment the corresponding lines in `docker-compose.yaml`.
@@ -17,7 +17,7 @@ mysql -h localhost -u <username> -p<password>
 By default both the mysql server as well as phpMyAdmin will only listen on `localhost` (or `127.0.0.1`). To change that remove or replace `127.0.0.1` in the `ports` section inside the `docker-compose` file.
 
 ## Connect to mysql server using the included wapper
-----------------------------
+
 ##### (currently only in bash)
 ### Passing down all arguments
 The wrapper is a script located at `./mysql` that, if called with any arguments, will simply pass all arguments provided to the wrapper down to the mysql shell inside the container. You will need to authenticate with the mysql server manually.
